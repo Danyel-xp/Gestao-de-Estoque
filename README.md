@@ -1,1 +1,2 @@
 # Gestao-de-Estoque
+<!-- # Simbolos  ╔ ╗ ╚ ╝ ═ ║ ╠ ╣ → -->
