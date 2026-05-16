@@ -20,3 +20,4 @@ def criar_tabela():
 
     conn.commit()
     conn.close()
+
