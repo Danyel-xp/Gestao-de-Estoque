@@ -1,4 +1,4 @@
-from db import conectar, criar_tabela,deletar
+from db import conectar, criar_tabela
 from datetime import datetime
 
 criar_tabela()
@@ -194,7 +194,14 @@ def atualizar():
             
             else:
                 print('Entrada inválida, favor tente novamente!')
-
+        elif op == 3:
+            deletar()
+        
+        elif op == 4:
+            return
+        
+        else:
+            print('Opção inválida, por favor tente novamente!')
     except ValueError as e :
         print(e)
     
@@ -211,7 +218,7 @@ def consultar():
         print('║ 1 → Consutar por nome    ║')
         print('║ 2 → Consultar por id     ║')   
         print('║ 3 → Consultar todos      ║')   
-        print('╚══════════════════════════╝')
+        print('╚══════════════════════════╝') 
 
         conn = conectar()
         cursor = conn.cursor()
@@ -283,6 +290,46 @@ def consultar():
 
 # def alerta():
 
+def deletar():
+
+    try:
+
+        print('╔═════════════════════════════╗')
+        print('║      DELETAR PRODUTO        ║')
+        print('╠═════════════════════════════╣')
+        print('║ 1 → Deletar por nome        ║')
+        print('║ 2 → Deletar por id          ║')
+        print('║ 3 → Voltar                  ║')
+        print('╚═════════════════════════════╝')
+        
+
+        op = int(input('Escolha: '))
+
+        if op == 1:
+            nome = input('nome: ')
+        elif op == 2:
+            id = int(input('Id: '))
+        elif op == 3:
+            return
+        else:
+            print('Opção inválida!')
+
+        conn =conectar()
+        cursor = conn.cursor()
+        cursor.execute(
+            '''
+            DELETE FROM produtos WHERE nome = ?
+            ''',(nome,)
+        )
+
+        conn.commit()
+
+    except ValueError as e:
+        print('Apenas números são permitidos, favor tente novamente!')
+        print(e)
+    finally:        
+        conn.close()
+        print(f'{nome} deletado com sucesso!')
 
 while True:
     largura = 30
@@ -310,23 +357,19 @@ while True:
             print('╠═════════════════════════════╣')
             print('║ 1 → Adicionar unidades      ║')
             print('║ 2 → Retirar unidades        ║')
-            print('║ 3 → Voltar                  ║')
+            print('║ 3 → DELETAR                 ║')
+            print('║ 4 → Voltar                  ║')
             print('╚═════════════════════════════╝')
 
             atualizar()
 
         elif opcao == 3:
-
             consultar()
-
-        elif opcao == 4 :
-            print('Saindo do Programa...')
-            print("Sistema fechado com êxito!")
-            break
-
-        elif opcao == 5:
-            deletar()
+        
+        elif opcao == 4:
+            print('Saindo...')
             break
 
     except ValueError:
         print('\nApenas números são permitidos!')
+
