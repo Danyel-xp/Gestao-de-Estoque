@@ -21,3 +21,18 @@ def criar_tabela():
     conn.commit()
     conn.close()
 
+def deletar():
+
+    nome = input('nome: ')
+    conn =conectar()
+    cursor = conn.cursor()
+    cursor.execute(
+        '''
+        DELETE FROM produtos WHERE nome = ?
+        ''',(nome,)
+    )
+
+    conn.commit()
+
+    conn.close()
+    print('pronto!')

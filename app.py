@@ -1,8 +1,7 @@
-from db import conectar, criar_tabela
+from db import conectar, criar_tabela,deletar
 from datetime import datetime
 
 criar_tabela()
-largura = 45
 
 def cadastrar():
 
@@ -14,17 +13,19 @@ def cadastrar():
 
         cursor.execute('''
             SELECT * FROM produtos
-             WHERE nome LIKE ?
-        ''',(f'%{nome}%',))
+             WHERE nome = ?
+        ''',(nome,))
 
-        produto = cursor.fetchone()
+        checar_produto = cursor.fetchone()
 
-        if nome == produto[1]:
-            print(f'{nome} já existe!')
+        if checar_produto:
+            print(f'{checar_produto[1]} já existe!')
         
         else:
             categoria = str(input('Categoria: ')).strip().lower()
+
             quantidade = int(input('Quantidade: '))
+
             data = str(datetime.today().strftime('%Y/%m/%d às %Hh:%Mm:%Ss'))
 
 
@@ -33,19 +34,31 @@ def cadastrar():
                 VALUES(?,?,?,?)
             ''',(nome,categoria,quantidade,data))
 
-            print(f'{nome} Cadatrado com sucesso, veja:')
+            conn.commit()
+
+            cursor.execute(
+            '''
+            SELECT * FROM produtos
+            WHERE nome = ?
+            ''',(nome,)
+            )
+
+            produto = cursor.fetchone()
+
+            print(f'{produto[1]} cadastrado com sucesso, veja:')
+
+            largura = 45
 
             print(f'╔{"═" * largura}╗')
             print(f'║{"PRODUTO" :^{largura}}║')
             print(f'╠{"═" * largura}╣')
-            print(f'║ {"Id: " + str(produto[0]) :<{ largura - 1 }}║')
-            print(f'║ {"Nome: " + produto[1][:18 ] :<{ largura - 1 }}║')
-            print(f'║ {"Categoria: " + produto[2][:20] :<{ largura -1 }}║')
-            print(f'║ {"Quantidade: " + str(produto[3])[:18] :<{ largura - 1 }}║')
-            print(f'║ {"Data: " + produto[4] :<{ largura -1 }}║')
+            print(f'║ {"Id: " + str(produto[0]):<{ largura - 1 }}║')
+            print(f'║ {"Nome: " + produto[1][:18]:<{ largura - 1 }}║')
+            print(f'║ {"Categoria: " + produto[2][:20]:<{ largura -1 }}║')
+            print(f'║ {"Quantidade: " + str(produto[3]) +" uni."[:18]:<{ largura - 1 }}║')
+            print(f'║ {"Data: " + produto[4]:<{ largura -1}}║')
             print(f'╚{"═" * largura}╝')
 
-            conn.commit()
             
     except ValueError as e:
         print('Quantidade deve conter apenas números inteiros, por favor revise o erro e tente novamente!')
@@ -74,7 +87,7 @@ def atualizar():
 
             print(f'Nome: {mostra_produto[1]}')
             print(f'Categoria: {mostra_produto[2]}')
-            print(f'Quantidade atual: {mostra_produto[3]}')
+            print(f'Quantidade atual: {mostra_produto[3]} unidades')
             print(f'Ultima data de atualização: {mostra_produto[4]}')
 
             adicionar_quantidade = int(input('Quantas unidades você quer adicionar: '))
@@ -82,7 +95,7 @@ def atualizar():
 
             escolha = str(input(f'Tem certeza que deseja adicionar novas {adicionar_quantidade} unidades [S/N]:  ')).strip().lower
 
-            if escolha == 's':
+            if escolha == 's' or 'S':
 
                 cursor.execute(
                     'SELECT * FROM produtos WHERE nome = ? ',(nome_produto,)
@@ -107,9 +120,9 @@ def atualizar():
                 produto_atualizado = cursor.fetchone()
 
                 print(f'{mostra_produto[1]} atualizado com sucesso!')
-                print(f'Qauntidade anterior: {mostra_produto[3]} ')
-                print(f'Unidades adicionadas: {adicionar_quantidade}')
-                print(f'Quantidade atual: {produto_atualizado[3]}')
+                print(f'Qauntidade anterior: {mostra_produto[3]} unidades')
+                print(f'Unidades adicionadas: {adicionar_quantidade} unidades')
+                print(f'Quantidade atual: {produto_atualizado[3]} unidades')
 
                 conn.commit()
 
@@ -134,7 +147,7 @@ def atualizar():
             print(f'ID: {mostra_produto[0]}')
             print(f'Nome: {mostra_produto[1]}')
             print(f'Categoria: {mostra_produto[2]}')
-            print(f'Quantidade atual: {mostra_produto[3]}')
+            print(f'Quantidade atual: {mostra_produto[3]} unidades')
             print(f'Ultima data de atualização: {mostra_produto[4]}')
 
             retirar_quantidade = int(input('Quantas unidades você quer retirar:  '))
@@ -171,11 +184,16 @@ def atualizar():
                 produto_atualizado = cursor.fetchone()
 
                 print(f'{produto_atualizado[1]} atualizado com sucesso!')
-                print(f'Quantidade anterior: {mostra_produto[3]}')
-                print(f'Unidades retiradas: {retirar_quantidade}')
-                print(f'Quantidade atual: {produto_atualizado[3]}')
+                print(f'Quantidade anterior: {mostra_produto[3]} unidades')
+                print(f'Unidades retiradas: {retirar_quantidade} unidades')
+                print(f'Quantidade atual: {produto_atualizado[3]} unidades')
 
                 conn.commit()
+            elif escolha == 'n':
+                print(f'A atualização de {mostra_produto[1]} foi cancelada!')
+            
+            else:
+                print('Entrada inválida, favor tente novamente!')
 
     except ValueError as e :
         print(e)
@@ -184,9 +202,84 @@ def atualizar():
         conn.close()
 
 
-    
+def consultar():
+    try:
 
-# def consultar():
+        print('╔══════════════════════════╗')
+        print('║    CONSULTAR PRODUTOS    ║')
+        print('╠══════════════════════════╣')
+        print('║ 1 → Consutar por nome    ║')
+        print('║ 2 → Consultar por id     ║')   
+        print('║ 3 → Consultar todos      ║')   
+        print('╚══════════════════════════╝')
+
+        conn = conectar()
+        cursor = conn.cursor()
+
+        op = int(input('Escolha: '))
+
+        if op == 1:
+            nome = str(input('Nome do produto: ')).strip().lower()
+
+            cursor.execute(
+            '''
+            SELECT * FROM produtos
+            WHERE nome = ?
+            ''',(nome,)
+            )
+
+            consultar_produto = cursor.fetchone()
+
+            print(f'\nId: {consultar_produto[0]}')
+            print(f'Nome: {consultar_produto[1]}')
+            print(f'Categoria: {consultar_produto[2]}')
+            print(f'Quantidade atual: {consultar_produto[3]} unidades')
+            print(f'Ultima data de atualização: {consultar_produto[4]}')
+
+        elif op == 2 :
+            id = int(input('Id do produto: '))
+
+            cursor.execute(
+            '''
+            SELECT * FROM produtos
+            WHERE id = ?
+            ''',(id,)
+            )
+
+            consultar_produto = cursor.fetchone()
+
+            print(f'\nId: {consultar_produto[0]}')
+            print(f'Nome: {consultar_produto[1]}')
+            print(f'Categoria: {consultar_produto[2]}')
+            print(f'Quantidade atual: {consultar_produto[3]} unidades')
+            print(f'Ultima data de atualização: {consultar_produto[4]}')
+        
+        elif op == 3:
+            cursor.execute(
+            '''
+            SELECT * FROM produtos
+            '''
+            )
+
+            todos = cursor.fetchall()
+
+
+            for produto in todos:
+                print(f'\nId: {produto[0]}')
+                print(f'Nome: {produto[1]}')
+                print(f'Categoria: {produto[2]}')
+                print(f'Quantidade: {produto[3]} uni.')
+                print(f'Ultima data de atualização: {produto[4]}')
+
+
+
+    except ValueError as e:
+        print('Apenas números são permitidos, favor tente novamente!')
+        print(e)
+
+    finally:
+        conn.close()
+        
 
 # def alerta():
 
@@ -194,7 +287,7 @@ def atualizar():
 while True:
     largura = 30
 
-    print(f'╔{"═" * largura}╗')
+    print(f'\n╔{"═" * largura}╗')
     print(f'║{"MENU":^{largura}}║')
     print(f'╠{"═" * largura}╣')
     print(f'║{" 1 → CADASTRA":<{largura}}║')
@@ -217,26 +310,22 @@ while True:
             print('╠═════════════════════════════╣')
             print('║ 1 → Adicionar unidades      ║')
             print('║ 2 → Retirar unidades        ║')
+            print('║ 3 → Voltar                  ║')
             print('╚═════════════════════════════╝')
 
             atualizar()
 
         elif opcao == 3:
-            
-            print('╔══════════════════════════╗')
-            print('║    CONSULTAR PRODUTOS    ║')
-            print('╠══════════════════════════╣')
-            print('║ 1 → Consutar por nome    ║')
-            print('║ 2 → Consultar por id     ║')   
-            print('║ 2 → Consultar todos      ║')   
-            print('╚══════════════════════════╝')
 
-            # consultar()
+            consultar()
 
         elif opcao == 4 :
             print('Saindo do Programa...')
             print("Sistema fechado com êxito!")
-            
+            break
+
+        elif opcao == 5:
+            deletar()
             break
 
     except ValueError:
