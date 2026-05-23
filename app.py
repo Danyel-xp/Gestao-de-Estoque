@@ -11,10 +11,12 @@ def cadastrar():
 
         nome = str(input('Nome: ')).strip().lower()
 
-        cursor.execute('''
+        cursor.execute(
+            '''
             SELECT * FROM produtos
-             WHERE nome = ?
-        ''',(nome,))
+            WHERE nome = ?
+            ''',(nome,)
+        )
 
         checar_produto = cursor.fetchone()
 
@@ -26,21 +28,29 @@ def cadastrar():
 
             quantidade = int(input('Quantidade: '))
 
-            data = str(datetime.today().strftime('%Y/%m/%d às %Hh:%Mm:%Ss'))
+            data = str(datetime.today().strftime('%Y/%m/%d'))
 
 
-            cursor.execute('''
+            cursor.execute(
+                '''
                 INSERT INTO produtos(nome,categoria,quantidade,data)
                 VALUES(?,?,?,?)
-            ''',(nome,categoria,quantidade,data))
+                ''',
+                (
+                    nome,
+                    categoria,
+                    quantidade,
+                    data
+                )
+            )
 
             conn.commit()
 
             cursor.execute(
-            '''
-            SELECT * FROM produtos
-            WHERE nome = ?
-            ''',(nome,)
+                '''
+                SELECT * FROM produtos
+                WHERE nome = ?
+                ''',(nome,)
             )
 
             produto = cursor.fetchone()
@@ -58,7 +68,6 @@ def cadastrar():
             print(f'║ {"Quantidade: " + str(produto[3]) +" uni."[:18]:<{ largura - 1 }}║')
             print(f'║ {"Data: " + produto[4]:<{ largura -1}}║')
             print(f'╚{"═" * largura}╝')
-
             
     except ValueError as e:
         print('Quantidade deve conter apenas números inteiros, por favor revise o erro e tente novamente!')
@@ -66,7 +75,6 @@ def cadastrar():
     
     finally:
         conn.close()
-
 
 def atualizar():
 
@@ -80,7 +88,10 @@ def atualizar():
             nome_produto = str(input('Digite o nome do produto: ')).strip().lower()
 
             cursor.execute(
-                "SELECT * FROM produtos WHERE nome = ?",(nome_produto,)
+                '''
+                SELECT * FROM produtos
+                WHERE nome = ?
+                ''',(nome_produto,)
             )
 
             mostra_produto = cursor.fetchone()
@@ -91,14 +102,17 @@ def atualizar():
             print(f'Ultima data de atualização: {mostra_produto[4]}')
 
             adicionar_quantidade = int(input('Quantas unidades você quer adicionar: '))
-            nova_data = str(datetime.today().strftime('%Y/%m/%d às %Hh:%Mm:%Ss'))
+            nova_data = str(datetime.today().strftime('%Y/%m/%d'))
 
             escolha = str(input(f'Tem certeza que deseja adicionar novas {adicionar_quantidade} unidades [S/N]:  ')).strip().lower
 
             if escolha == 's' or 'S':
 
                 cursor.execute(
-                    'SELECT * FROM produtos WHERE nome = ? ',(nome_produto,)
+                    '''
+                    SELECT * FROM produtos
+                    WHERE nome = ? 
+                    ''',(nome_produto,)
                 )
 
                 produto = cursor.fetchone()
@@ -110,11 +124,18 @@ def atualizar():
                     UPDATE produtos SET quantidade = ?, data = ?
                     WHERE nome = ?
                     ''',
-                    (quantidade_atualizada, nova_data , nome_produto)
+                    (
+                        quantidade_atualizada,
+                        nova_data ,
+                        nome_produto
+                    )
                 )
 
                 cursor.execute(
-                    'SELECT * FROM produtos WHERE nome = ?',(nome_produto,)
+                    '''
+                    SELECT * FROM produtos
+                    WHERE nome = ?
+                    ''',(nome_produto,)
                 )
 
                 produto_atualizado = cursor.fetchone()
@@ -136,10 +157,10 @@ def atualizar():
             nome_produto = str(input('Digite o nome do produto: ')).strip().lower()
 
             cursor.execute(
-            '''
-            SELECT * FROM produtos
-            WHERE nome = ?
-            ''', (nome_produto,)
+                '''
+                SELECT * FROM produtos
+                WHERE nome = ?
+                ''', (nome_produto,)
             )
 
             mostra_produto = cursor.fetchone()
@@ -151,17 +172,17 @@ def atualizar():
             print(f'Ultima data de atualização: {mostra_produto[4]}')
 
             retirar_quantidade = int(input('Quantas unidades você quer retirar:  '))
-            nova_data = str(datetime.today().strftime('%Y/%m/%d às %Hh:%Mm:%Ss'))
+            nova_data = str(datetime.today().strftime('%Y/%m/%d'))
 
             escolha = input(f'Tem certeza que deseja retira {retirar_quantidade} unidades de {mostra_produto[1]} [S/N]:  ').strip().lower()
 
             if escolha == 's':
                 
                 cursor.execute(
-                '''
-                SELECT * FROM produtos
-                WHERE nome = ?
-                ''',(nome_produto,)
+                    '''
+                    SELECT * FROM produtos
+                    WHERE nome = ?
+                    ''',(nome_produto,)
                 )
 
                 produto = cursor.fetchone()
@@ -169,16 +190,21 @@ def atualizar():
                 quantidade_atualizada = produto[3] - retirar_quantidade
 
                 cursor.execute(
-                '''
-                UPDATE produtos SET quantidade = ?, data = ?
-                WHERE nome = ?
-                ''',(quantidade_atualizada,nova_data,produto[1])
+                    '''
+                    UPDATE produtos SET quantidade = ?, data = ?
+                    WHERE nome = ?
+                    ''',
+                    (
+                        quantidade_atualizada,
+                        nova_data,
+                        produto[1]
+                    )
                 )
 
                 cursor.execute(
-                '''
-                SELECT * FROM produtos WHERE nome = ?
-                ''',(produto[1],)
+                    '''
+                    SELECT * FROM produtos WHERE nome = ?
+                    ''',(produto[1],)
                 )
 
                 produto_atualizado = cursor.fetchone()
@@ -189,6 +215,7 @@ def atualizar():
                 print(f'Quantidade atual: {produto_atualizado[3]} unidades')
 
                 conn.commit()
+
             elif escolha == 'n':
                 print(f'A atualização de {mostra_produto[1]} foi cancelada!')
             
@@ -222,56 +249,83 @@ def consultar():
             nome = str(input('Nome do produto: ')).strip().lower()
 
             cursor.execute(
-            '''
-            SELECT * FROM produtos
-            WHERE nome = ?
-            ''',(nome,)
+                '''
+                SELECT * FROM produtos
+                WHERE nome = ?
+                ''',(nome,)
             )
 
             consultar_produto = cursor.fetchone()
 
-            print(f'\nId: {consultar_produto[0]}')
-            print(f'Nome: {consultar_produto[1]}')
-            print(f'Categoria: {consultar_produto[2]}')
-            print(f'Quantidade atual: {consultar_produto[3]} unidades')
-            print(f'Ultima data de atualização: {consultar_produto[4]}')
+            if consultar_produto:
 
+                status = alerta(consultar_produto)
+
+                print(f'\nId: {consultar_produto[0]}')
+                print(f'Nome: {consultar_produto[1]}')
+                print(f'Categoria: {consultar_produto[2]}')
+                print(f'Quantidade atual: {consultar_produto[3]} unidades')
+                print(f'Status: {status}')
+                print(f'Ultima data de atualização: {consultar_produto[4]}')
+                
+                if consultar_produto[3]<= 3:
+                    print(f'ATENÇÃO O PRODUTO {consultar_produto[1]} ESTÁ COM O ESTOQUE MUITO BAIXO!')
+
+            else:
+                print('Produto não encontrado')
         elif op == 2 :
             id = int(input('Id do produto: '))
 
             cursor.execute(
-            '''
-            SELECT * FROM produtos
-            WHERE id = ?
-            ''',(id,)
+                '''
+                SELECT * FROM produtos
+                WHERE id = ?
+                ''',(id,)
             )
 
             consultar_produto = cursor.fetchone()
 
-            print(f'\nId: {consultar_produto[0]}')
-            print(f'Nome: {consultar_produto[1]}')
-            print(f'Categoria: {consultar_produto[2]}')
-            print(f'Quantidade atual: {consultar_produto[3]} unidades')
-            print(f'Ultima data de atualização: {consultar_produto[4]}')
-        
+            if consultar_produto :
+
+                status = alerta(consultar_produto)
+
+                print(f'\nId: {consultar_produto[0]}')
+                print(f'Nome: {consultar_produto[1]}')
+                print(f'Categoria: {consultar_produto[2]}')
+                print(f'Quantidade atual: {consultar_produto[3]} uni.')
+                print(f'Status: {status}')
+                print(f'Ultima data de atualização: {consultar_produto[4]}')
+
+                if consultar_produto[3] <= 3:
+                    print(f'\nATENÇÃO O PRODUTO {consultar_produto[1]} ESTÁ COM ESTOQUE MUITO BAIXO!')
+
+            else:
+                print('Produto não encontrado')
+            
         elif op == 3:
             cursor.execute(
-            '''
-            SELECT * FROM produtos
-            '''
+                '''
+                SELECT * FROM produtos
+                '''
             )
 
             todos = cursor.fetchall()
 
-
             for produto in todos:
+
+                status = alerta(produto)
+
                 print(f'\nId: {produto[0]}')
                 print(f'Nome: {produto[1]}')
                 print(f'Categoria: {produto[2]}')
                 print(f'Quantidade: {produto[3]} uni.')
+                print(f'Status: {status}')
                 print(f'Ultima data de atualização: {produto[4]}')
 
-
+                if produto[3] <= 3:
+                    print(f'\nATENÇÃO O PRODUTO {produto[1]} ESTÁ COM O ESTOQUE MUITO BAIXO!')
+        else:
+            print('Produto não encontrado')
 
     except ValueError as e:
         print('Apenas números são permitidos, favor tente novamente!')
@@ -281,8 +335,21 @@ def consultar():
         conn.close()
         
 
-# def alerta():
+def alerta(produto):
+    try:
 
+        if produto[3] <= 3:
+            return '🔴 Critico'
+            
+        elif produto[3] <= 10:
+            return '🟡 Baixo'
+
+        else:
+            return '🟢 Normal'
+
+    except ValueError as e:
+        print('Apenas numeros são permitidos')
+        print(e)
 
 while True:
     largura = 30

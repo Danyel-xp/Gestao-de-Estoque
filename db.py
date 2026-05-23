@@ -9,21 +9,24 @@ def criar_tabela():
     conn = conectar()
     cursor = conn.cursor()
 
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS produtos(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
-    categoria TEXT NOT NULL,
-    quantidade INTEGER NOT NULL,
-    data DATE NOT NULL
-    )''')
+    cursor.execute(
+        '''
+        CREATE TABLE IF NOT EXISTS produtos(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        categoria TEXT NOT NULL,
+        quantidade INTEGER NOT NULL,
+        data DATE NOT NULL
+            )
+        '''
+    )
 
     conn.commit()
     conn.close()
 
 def deletar():
 
-    nome = input('nome: ')
+    nome = input('nome: ').strip().lower()
     conn =conectar()
     cursor = conn.cursor()
     cursor.execute(
