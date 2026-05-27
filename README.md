@@ -1,79 +1,339 @@
-# Gestão de Estoque
+# 📦 Gestão de Estoque
 
-Projeto em Python para controle de estoque simples, com cadastro, atualização, consulta e exclusão de produtos.
+Sistema simples de gerenciamento de estoque desenvolvido em Python com SQLite, criado para praticar lógica de programação, manipulação de banco de dados e operações CRUD no terminal.
 
-## Sobre o projeto
+O projeto permite cadastrar produtos, atualizar quantidades, consultar informações e remover itens do estoque de forma prática e organizada.
 
-Este sistema usa `sqlite3` para armazenar produtos em um banco de dados local chamado `estoque.db`. O programa roda no terminal e apresenta um menu para escolher as ações.
+---
 
-É um CRUD simples, funcional e direto:
-- Create: cadastrar novo produto
-- Read: consultar produto por nome, por id ou listar todos
-- Update: adicionar unidades ou retirar unidades
-- Delete: remover produto do estoque
+# 🚀 Começando
 
-## Como foi criado
+Essas instruções permitem executar o projeto localmente em qualquer sistema operacional para fins de estudo, testes e aprendizado.
 
-1. Em `db.py`:
-   - foi criada a função `conectar()` para abrir conexão com `estoque.db`
-   - foi criada a função `criar_tabela()` para gerar a tabela `produtos` quando o programa inicia
-   - a tabela guarda `id`, `nome`, `categoria`, `quantidade` e `data`
+O sistema roda diretamente no terminal e utiliza banco de dados SQLite local, sem necessidade de instalar servidores adicionais.
 
-2. Em `app.py`:
-   - o código importa `conectar` e `criar_tabela` do `db.py`
-   - chama `criar_tabela()` logo no começo para garantir que o banco existe
-   - define funções para cadastrar, atualizar, consultar e deletar produtos
-   - cada função usa SQL com `sqlite3` para manipular os dados
-   - usa `datetime` para registrar a data de cadastro ou atualização
+---
 
-3. No menu principal:
-   - o usuário escolhe entre cadastrar, atualizar, consultar ou sair
-   - o programa trata entradas de teclado e mostra mensagens claras
-   - a conexão com o banco é aberta e fechada em cada operação
+# 📋 Pré-requisitos
 
-## Funcionalidades principais
+Antes de executar o projeto, é necessário possuir:
 
-- Cadastro de produto com nome, categoria, quantidade e data atual
-- Atualização do estoque com adição ou retirada de unidades
-- Exclusão de produto por nome ou por id
-- Consulta de produto por nome, por id ou exibição de todos
-- Alerta de estoque:
-  - `🔴 Critico` quando a quantidade está em 3 ou menos
-  - `🟡 Baixo` quando a quantidade está entre 4 e 10
-  - `🟢 Normal` quando a quantidade é maior que 10
+- Python 3 instalado
+- Terminal ou Prompt de Comando
+- Editor de código opcional:
+  - VS Code
+  - PyCharm
+  - Sublime Text
 
-## Tecnologias usadas
+---
+
+# 🔧 Instalação
+
+## 1. Crie uma pasta
+
+```bash
+mkdir C:\user\SeuUsuario\NomedaPasta
+```
+
+---
+
+## 2. Entre na pasta que você criou
+
+```bash
+cd C:\user\SeuUsuario\NomedaPasta
+```
+
+---
+
+## 3. Clone o repositório
+
+```bash
+git clone https://github.com/Daniel-xp/Gestao-de-Estoque.git
+```
+### Certifique-se de estar na pasta C:\user\seuUsuario\NomedaPasta
+
+---
+
+
+## 4. Verifique se o Python está instalado
+
+### Windows
+
+```bash
+python --version
+```
+
+### Linux / Mac
+
+```bash
+python3 --version
+```
+
+Se aparecer algo como:
+
+```bash
+Python 3.x.x
+```
+
+significa que está tudo pronto.
+
+---
+
+## 5. Execute o sistema
+
+### Windows
+
+```bash
+python app.py
+```
+
+### Linux / Mac
+
+```bash
+python3 app.py
+```
+
+---
+
+# ▶️ Como usar o sistema
+
+Ao executar o programa, aparecerá um menu no terminal com as opções disponíveis.
+
+Exemplo:
+
+```bash
+1 - Cadastrar produto
+2 - Atualizar estoque
+3 - Consultar produto
+4 - Remover produto
+5 - Sair
+```
+
+Basta digitar o número correspondente à operação desejada.
+
+---
+
+# 📌 Funcionalidades Implementadas
+
+✅ Cadastro de produtos
+
+✅ Consulta por:
+- nome
+- ID
+- listagem completa
+
+✅ Atualização de estoque:
+- adicionar unidades
+- remover unidades
+
+✅ Exclusão de produtos
+
+✅ Banco de dados SQLite
+
+✅ Alertas automáticos de estoque:
+- 🔴 Crítico
+- 🟡 Baixo
+- 🟢 Normal
+
+✅ Registro automático de data
+
+✅ Tratamento de entradas inválidas
+
+---
+
+# ⚙️ Executando os testes
+
+O projeto foi testado manualmente diretamente pelo terminal.
+
+Os testes realizados incluem:
+
+- cadastro de produtos;
+- atualização de quantidades;
+- consultas;
+- remoção de itens;
+- validação de entradas inválidas;
+- verificação do banco SQLite.
+
+---
+
+# 🔩 Análise dos testes de ponta a ponta
+
+Os testes verificam:
+
+- funcionamento correto do CRUD;
+- persistência dos dados no banco;
+- atualização automática do estoque;
+- comportamento do menu;
+- validação de erros do usuário.
+
+Exemplos testados:
+
+```bash
+Cadastrar produto
+Atualizar quantidade
+Consultar produto
+Excluir produto
+```
+
+---
+
+# ⌨️ Testes de estilo de codificação
+
+O código segue boas práticas básicas de organização:
+
+- separação de arquivos;
+- reutilização de funções;
+- comentários explicativos;
+- nomes semânticos;
+- uso correto de funções Python.
+
+Também foram aplicados:
+
+- tratamento de exceções;
+- organização modular;
+- separação da lógica do banco em `db.py`.
+
+---
+
+# 📦 Implantação
+
+O projeto pode ser executado em:
+
+- Windows
+- Linux
+- MacOS
+- Google Colab
+
+Não é necessário instalar banco de dados externo, pois o SQLite já funciona localmente automaticamente.
+
+---
+
+# ☁️ Executando no Google Colab
+
+## 1. Abra o Google Colab
+
+Acesse:
+
+```txt
+https://colab.research.google.com/
+```
+
+---
+
+## 2. Faça upload dos arquivos
+
+Envie:
+- `app.py`
+- `db.py`
+
+---
+
+## 3. Execute uma célula com:
+
+```python
+!python3 app.py
+```
+
+---
+
+## 4. Utilize normalmente
+
+O sistema abrirá o menu diretamente no notebook.
+
+O arquivo `estoque.db` será criado automaticamente.
+
+---
+
+# 🛠️ Construído com
 
 - Python 3
-- sqlite3
-- datetime
+- SQLite3
+- Datetime
 
-## Como rodar no terminal
+---
 
-1. Abra o terminal na pasta do projeto.
-2. Verifique o Python:
-   ```bash
-   python3 --version
-   ```
-3. Execute o programa:
-   ```bash
-   python3 app.py
-   ```
-4. Use o menu para selecionar as opções.
+# 🖇️ Estrutura do Projeto
 
-## Como rodar no Google Colab
+```bash
+gestao-de-estoque/
+│
+├── app.py
+├── db.py
+├── estoque.db
+├── README.md
+└── .gitignore
+```
 
-1. Abra o Google Colab no navegador.
-2. Crie um novo notebook.
-3. Faça upload dos arquivos `app.py` e `db.py` no Colab.
-4. Execute uma célula com:
-   ```python
-   !python3 app.py
-   ```
-5. O menu será exibido na saída da célula e o banco `estoque.db` será criado no ambiente do notebook.
+---
 
-## Membros do grupo
+# 📌 Versão
 
-- Nicolas
-- Daniel
-- Estevão
+Projeto acadêmico inicial desenvolvido para prática de:
+
+- lógica de programação;
+- banco de dados;
+- CRUD;
+- Python básico/intermediário.
+
+Versão atual:
+
+```bash
+1.0.0
+```
+
+---
+
+# ✒️ Autores
+
+## Daniel
+
+Desenvolvimento principal do sistema, implementação das funcionalidades de gerenciamento de estoque, integração com SQLite e organização da estrutura do projeto.
+
+GitHub:
+[Daniel-xp][link]
+
+[link]:https://github.com/Danyel-xp
+
+---
+
+## Nicolas Ribeiro
+
+Auxílio no desenvolvimento, testes, documentação e organização das funcionalidades do sistema.
+
+GitHub:
+[NicolasWebMaster][link]
+
+[link]:https://github.com/NicolasWebMaster
+
+---
+
+## Estevão
+
+Auxílio na organização, validações e testes das funcionalidades implementadas.
+
+GitHub:
+[Estevao-exe][link]
+
+[link]:https://github.com/Estevao-exe
+
+---
+
+# 📄 Licença
+
+Este projeto foi desenvolvido para fins educacionais e acadêmicos.
+
+Uso livre para aprendizado e estudos.
+
+---
+
+# 🎁 Expressões de gratidão
+
+📢 Compartilhe este projeto com outros estudantes.
+
+🧠 Continue evoluindo constantemente.
+
+🚀 Cada projeto desenvolvido aumenta sua experiência prática.
+
+💻 Programação se aprende construindo.
+
+---
