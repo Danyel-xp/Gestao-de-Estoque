@@ -1,339 +1,136 @@
-# 📦 Gestão de Estoque
 
-Sistema simples de gerenciamento de estoque desenvolvido em Python com SQLite, criado para praticar lógica de programação, manipulação de banco de dados e operações CRUD no terminal.
+<div align="center">
 
-O projeto permite cadastrar produtos, atualizar quantidades, consultar informações e remover itens do estoque de forma prática e organizada.
+# Gestão de Estoque
 
----
+![Python](https://img.shields.io/badge/Python-blue?style=for-the-badge&logo=python)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite)
+![Terminal](https://img.shields.io/badge/Terminal-lightgrey?style=for-the-badge&logo=windowsterminal)
 
-# 🚀 Começando
+**Sistema de gerenciamento de estoque desenvolvido em Python e SQLite, executado pelo terminal.**
 
-Essas instruções permitem executar o projeto localmente em qualquer sistema operacional para fins de estudo, testes e aprendizado.
+</div>
 
-O sistema roda diretamente no terminal e utiliza banco de dados SQLite local, sem necessidade de instalar servidores adicionais.
+## Sobre o projeto
 
----
+O projeto foi desenvolvido com o objetivo de praticar lógica de programação, manipulação de banco de dados e operações CRUD utilizando Python.
 
-# 📋 Pré-requisitos
+A aplicação permite gerenciar produtos de um estoque, mantendo suas informações organizadas e facilitando o controle de quantidades e consultas.
 
-Antes de executar o projeto, é necessário possuir:
+## Funcionalidades
 
-- Python 3 instalado
-- Terminal ou Prompt de Comando
-- Editor de código opcional:
-  - VS Code
-  - PyCharm
-  - Sublime Text
+O sistema oferece as seguintes operações:
 
----
+- Cadastro de produtos;
+- Consulta de produtos por ID ou nome;
+- Listagem de todos os produtos;
+- Atualização de quantidades em estoque;
+- Adição e remoção de unidades;
+- Exclusão de produtos;
+- Identificação automática do nível de estoque;
+- Registro automático de data;
+- Validação de entradas e tratamento de erros.
 
-# 🔧 Instalação
+ ## Demonstrações
 
-## 1. Crie uma pasta
+ ![Alter Text](assets/menu.png)
+
+<details> 
+
+<summary> Outros testes</summary>
+<summary> Listagem</summary>
+
+![alt text](assets/listagem.png)
+
+<summary> Estoque</summary>
+
+![alt text](assets/estoque.png)
+
+<summary> Cadastro</summary>
+
+![alt text](assets/cadastro.png)
+
+<summary> Atualização</summary>
+
+![alt text](assets/atualizacao.png)
+</details>
+ 
+
+### Níveis de estoque
+
+O sistema identifica a situação dos produtos de acordo com a quantidade disponível:
+
+| Status | Quantidade |
+|:---:|:---:|
+| 🔴 Crítico | Até 3 unidades |
+| 🟡 Baixo | Até 10 unidades |
+| 🟢 Normal | Acima de 10 unidades |
+
+## Tecnologias utilizadas
+- [Python](https://www.python.org/downloads/) : desenvolvimento da aplicação e implementação das funcionalidades.
+- [SQLite3](https://sqlite.org/): armazenamento e gerenciamento dos dados.
+- [Datetime](https://docs.python.org/3/library/datetime.html#module-datetime): registro e manipulação de datas.
+
+## Requisitos
+
+Para executar o projeto, é necessário possuir:
+
+- [Python](https://www.python.org/downloads/) instalado;
+- [Git](https://git-scm.com/install/) instalado;
+- Terminal ou editor de código de sua preferência.
+
+Não é necessário instalar bibliotecas externas ou configurar um servidor de banco de dados.
+
+## Como executar
+
+Clone o repositório:
 
 ```bash
-mkdir C:\user\SeuUsuario\NomedaPasta
+git clone https://github.com/Danyel-xp/Gestao-de-Estoque.git
 ```
 
----
-
-## 2. Entre na pasta que você criou
+Entre no diretório:
 
 ```bash
-cd C:\user\SeuUsuario\NomedaPasta
+cd Gestao-de-Estoque
 ```
 
----
-
-## 3. Clone o repositório
-
-```bash
-git clone https://github.com/Daniel-xp/Gestao-de-Estoque.git
-```
-### Certifique-se de estar na pasta C:\user\seuUsuario\NomedaPasta
-
----
-
-
-## 4. Verifique se o Python está instalado
-
-### Windows
-
-```bash
-python --version
-```
-
-### Linux / Mac
-
-```bash
-python3 --version
-```
-
-Se aparecer algo como:
-
-```bash
-Python 3.x.x
-```
-
-significa que está tudo pronto.
-
----
-
-## 5. Execute o sistema
-
-### Windows
+Execute a aplicação:
 
 ```bash
 python app.py
 ```
 
-### Linux / Mac
+O banco de dados SQLite será utilizado localmente para armazenar as informações dos produtos.
 
-```bash
-python3 app.py
-```
+## Estrutura do projeto
 
----
-
-# ▶️ Como usar o sistema
-
-Ao executar o programa, aparecerá um menu no terminal com as opções disponíveis.
-
-Exemplo:
-
-```bash
-1 - Cadastrar produto
-2 - Atualizar estoque
-3 - Consultar produto
-4 - Remover produto
-5 - Sair
-```
-
-Basta digitar o número correspondente à operação desejada.
-
----
-
-# 📌 Funcionalidades Implementadas
-
-✅ Cadastro de produtos
-
-✅ Consulta por:
-- nome
-- ID
-- listagem completa
-
-✅ Atualização de estoque:
-- adicionar unidades
-- remover unidades
-
-✅ Exclusão de produtos
-
-✅ Banco de dados SQLite
-
-✅ Alertas automáticos de estoque:
-- 🔴 Crítico
-- 🟡 Baixo
-- 🟢 Normal
-
-✅ Registro automático de data
-
-✅ Tratamento de entradas inválidas
-
----
-
-# ⚙️ Executando os testes
-
-O projeto foi testado manualmente diretamente pelo terminal.
-
-Os testes realizados incluem:
-
-- cadastro de produtos;
-- atualização de quantidades;
-- consultas;
-- remoção de itens;
-- validação de entradas inválidas;
-- verificação do banco SQLite.
-
----
-
-# 🔩 Análise dos testes de ponta a ponta
-
-Os testes verificam:
-
-- funcionamento correto do CRUD;
-- persistência dos dados no banco;
-- atualização automática do estoque;
-- comportamento do menu;
-- validação de erros do usuário.
-
-Exemplos testados:
-
-```bash
-Cadastrar produto
-Atualizar quantidade
-Consultar produto
-Excluir produto
-```
-
----
-
-# ⌨️ Testes de estilo de codificação
-
-O código segue boas práticas básicas de organização:
-
-- separação de arquivos;
-- reutilização de funções;
-- comentários explicativos;
-- nomes semânticos;
-- uso correto de funções Python.
-
-Também foram aplicados:
-
-- tratamento de exceções;
-- organização modular;
-- separação da lógica do banco em `db.py`.
-
----
-
-# 📦 Implantação
-
-O projeto pode ser executado em:
-
-- Windows
-- Linux
-- MacOS
-- Google Colab
-
-Não é necessário instalar banco de dados externo, pois o SQLite já funciona localmente automaticamente.
-
----
-
-# ☁️ Executando no Google Colab
-
-## 1. Abra o Google Colab
-
-Acesse:
-
-```txt
-https://colab.research.google.com/
-```
-
----
-
-## 2. Faça upload dos arquivos
-
-Envie:
-- `app.py`
-- `db.py`
-
----
-
-## 3. Execute uma célula com:
-
-```python
-!python3 app.py
-```
-
----
-
-## 4. Utilize normalmente
-
-O sistema abrirá o menu diretamente no notebook.
-
-O arquivo `estoque.db` será criado automaticamente.
-
----
-
-# 🛠️ Construído com
-
-- Python 3
-- SQLite3
-- Datetime
-
----
-
-# 🖇️ Estrutura do Projeto
-
-```bash
-gestao-de-estoque/
+```text
+Gestao-de-Estoque/
+│
+├── assets/
+│   ├── menu.png
+│   ├── listagem.png
+│   ├── cadastro.png
+│   ├── estoque.png
+│   └── atualizacao.png
 │
 ├── app.py
 ├── db.py
 ├── estoque.db
-├── README.md
-└── .gitignore
+└── README.md
 ```
 
----
+## Colaboradores
 
-# 📌 Versão
+- **Daniel Rodrigues** — Desenvolvimento principal e integração com SQLite.
 
-Projeto acadêmico inicial desenvolvido para prática de:
+  GitHub: [@Danyel-xp](https://github.com/Danyel-xp)
 
-- lógica de programação;
-- banco de dados;
-- CRUD;
-- Python básico/intermediário.
+- **Nicolas Ribeiro** — Auxílio no desenvolvimento e testes.
 
-Versão atual:
+  GitHub: [@NicolasWebMaster](https://github.com/NicolasWebMaster)
 
-```bash
-1.0.0
-```
+- **Estevão** — Auxílio na organização, validações e testes.
 
----
-
-# ✒️ Autores
-
-## Daniel
-
-Desenvolvimento principal do sistema, implementação das funcionalidades de gerenciamento de estoque, integração com SQLite e organização da estrutura do projeto.
-
-GitHub:
-[Daniel-xp][link]
-
-[link]:https://github.com/Danyel-xp
-
----
-
-## Nicolas Ribeiro
-
-Auxílio no desenvolvimento, testes, documentação e organização das funcionalidades do sistema.
-
-GitHub:
-[NicolasWebMaster][link]
-
-[link]:https://github.com/NicolasWebMaster
-
----
-
-## Estevão
-
-Auxílio na organização, validações e testes das funcionalidades implementadas.
-
-GitHub:
-[Estevao-exe][link]
-
-[link]:https://github.com/Estevao-exe
-
----
-
-# 📄 Licença
-
-Este projeto foi desenvolvido para fins educacionais e acadêmicos.
-
-Uso livre para aprendizado e estudos.
-
----
-
-# 🎁 Expressões de gratidão
-
-📢 Compartilhe este projeto com outros estudantes.
-
-🧠 Continue evoluindo constantemente.
-
-🚀 Cada projeto desenvolvido aumenta sua experiência prática.
-
-💻 Programação se aprende construindo.
-
----
+  GitHub: [@Estevao-exe](https://github.com/Estevao-exe)
